@@ -1,0 +1,28 @@
+<div class="flex flex-col w-full px-4 max-w-5xl mx-auto mt-8 gap-6">
+  <header>
+    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Friends</h2>
+  </header>
+
+  <app-add-friend-form></app-add-friend-form>
+
+  <section>
+    <p-tabs value="0">
+      <p-tablist>
+        <p-tab value="0">Friends</p-tab>
+        <p-tab value="1">Friend Requests</p-tab>
+        <p-tab value="2">Sent Requests</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+        <p-tabpanel value="0">
+          <app-friends-table></app-friends-table>
+        </p-tabpanel>
+        <p-tabpanel value="1">
+          <app-friend-requests-table></app-friend-requests-table>
+        </p-tabpanel>
+        <p-tabpanel value="2">
+          <app-sent-friend-requests-table></app-sent-friend-requests-table>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  </section>
+</div>

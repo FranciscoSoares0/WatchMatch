@@ -1,0 +1,78 @@
+<aside
+  class="flex flex-col w-22 sm:w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-neutral-900 dark:border-neutral-700"
+>
+  <a routerLink="/" class="flex justify-center sm:justify-start">
+    <img class="w-auto h-10" src="watchmatch.png" alt="" />
+  </a>
+
+  <div class="flex flex-col justify-between flex-1 mt-6">
+    <nav>
+      <a
+        class="flex justify-center sm:justify-start items-center px-4 py-2 mt-5 text-neutral-600 transition-colors duration-300 transform rounded-md dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+        routerLink="/"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i class="pi pi-home"></i>
+        <span class="mx-4 font-medium hidden sm:inline">Home</span>
+      </a>
+
+      <a
+        class="flex items-center justify-center sm:justify-start px-4 py-2 mt-5 text-neutral-600 transition-colors duration-300 transform rounded-md dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+        routerLink="/friends"
+        routerLinkActive="active-link"
+      >
+        <i class="pi pi-users"></i>
+
+        <span class="mx-4 font-medium hidden sm:inline">Friends</span>
+      </a>
+
+      <hr class="my-6 border-neutral-200 dark:border-neutral-600" />
+
+      <a
+        class="flex justify-center sm:justify-start items-center px-4 py-2 mt-5 text-neutral-600 transition-colors duration-300 transform rounded-md dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+        href="#"
+        routerLinkActive="active-link"
+        routerLink="/settings"
+      >
+        <i class="pi pi-cog"></i>
+
+        <span class="mx-4 font-medium hidden sm:inline">Settings</span>
+      </a>
+    </nav>
+
+    <div class="flex items-center justify-between mt-6">
+      <a
+        href="#"
+        class="flex items-center px-4 -mx-2"
+        *ngIf="user() as currentUser"
+      >
+        <p-avatar
+          *ngIf="currentUser.profileImage; else noImage"
+          [image]="currentUser.profileImage"
+          size="normal"
+          shape="circle"
+        ></p-avatar>
+
+        <ng-template #noImage>
+          <p-avatar
+            [label]="currentUser.name[0]"
+            size="normal"
+            shape="circle"
+          ></p-avatar>
+        </ng-template>
+        <span
+          class="mx-2 font-medium text-neutral-800 dark:text-neutral-200 hidden sm:inline"
+          >{{ currentUser.name }}</span
+        >
+      </a>
+      <a
+        href="javascript:void(0)"
+        (click)="SignOut()"
+        class="text-gray-500 transition-colors duration-200 dark:text-gray-400 hover:text-emerald-500 dark:hover:text-emerald-400"
+      >
+        <i class="pi pi-sign-out"></i>
+      </a>
+    </div>
+  </div>
+</aside>

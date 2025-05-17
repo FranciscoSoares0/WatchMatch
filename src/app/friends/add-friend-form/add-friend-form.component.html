@@ -1,0 +1,25 @@
+<form [formGroup]="sendFriendRequestForm" (ngSubmit)="onSubmit()">
+  <div class="mt-4 flex align-items-center gap-4">
+    <div class="flex flex-col">
+      <input
+        id="friendEmail"
+        type="text"
+        placeholder="Enter user email"
+        formControlName="friendEmail"
+        pInputText
+        [class.ng-invalid]="
+          sendFriendRequestForm.get('friendEmail')?.invalid &&
+          sendFriendRequestForm.get('friendEmail')?.touched
+        "
+        [class.ng-dirty]="sendFriendRequestForm.get('friendEmail')?.dirty"
+        class="w-full mb-3"
+      />
+      @if(sendFriendRequestForm.get('friendEmail')?.touched &&
+      sendFriendRequestForm.get('friendEmail')?.invalid){
+      <small class="text-red-300">Please enter a valid email.</small>
+      }
+    </div>
+
+    <p-button type="submit" label="Send Request" />
+  </div>
+</form>

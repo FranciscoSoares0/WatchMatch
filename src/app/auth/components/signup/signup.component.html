@@ -1,0 +1,255 @@
+<div
+  class="min-h-screen flex items-center justify-center bg-neutral-100 dark:bg-neutral-900"
+>
+  <div
+    class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg dark:bg-neutral-800"
+  >
+    <div routerLink="/" class="w-full flex justify-center mb-6 cursor-pointer">
+      <img  width="100" src="./watchmatch.png" alt="">
+    </div>
+    <div class="mb-6 text-center">
+      <h2 class="text-2xl font-bold text-neutral-700 dark:text-neutral-200">
+        Create an Account
+      </h2>
+      <p class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+        Sign up to get started
+      </p>
+      <a
+        (click)="SignInWithGoogle()"
+        href="javascript:void(0)"
+        class="flex items-center justify-center mt-4 text-neutral-600 transition-colors duration-300 transform border rounded-lg dark:border-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-600"
+      >
+        <div class="px-4 py-2">
+          <svg class="w-6 h-6" viewBox="0 0 40 40">
+            <path
+              d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+              fill="#FFC107"
+            />
+            <path
+              d="M5.25497 12.2425L10.7308 16.2583C12.2125 12.59 15.8008 9.99999 20 9.99999C22.5491 9.99999 24.8683 10.9617 26.6341 12.5325L31.3483 7.81833C28.3716 5.04416 24.39 3.33333 20 3.33333C13.5983 3.33333 8.04663 6.94749 5.25497 12.2425Z"
+              fill="#FF3D00"
+            />
+            <path
+              d="M20 36.6667C24.305 36.6667 28.2167 35.0192 31.1742 32.34L26.0159 27.975C24.3425 29.2425 22.2625 30 20 30C15.665 30 11.9842 27.2359 10.5975 23.3784L5.16254 27.5659C7.92087 32.9634 13.5225 36.6667 20 36.6667Z"
+              fill="#4CAF50"
+            />
+            <path
+              d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.7592 25.1975 27.56 26.805 26.0133 27.9758C26.0142 27.975 26.015 27.975 26.0158 27.9742L31.1742 32.3392C30.8092 32.6708 36.6667 28.3333 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+              fill="#1976D2"
+            />
+          </svg>
+        </div>
+
+        <span class="w-5/6 px-4 py-3 font-bold text-center"
+          >Sign up with Google</span
+        >
+      </a>
+    </div>
+    <div class="flex items-center justify-between mt-4">
+      <span class="w-1/5 border-b dark:border-neutral-600 lg:w-1/4"></span>
+
+      <a
+        href="javascript:void(0)"
+        class="text-xs text-center text-neutral-500 uppercase dark:text-neutral-400 cursor-auto"
+        >or signup with email</a
+      >
+
+      <span class="w-1/5 border-b dark:border-neutral-400 lg:w-1/4"></span>
+    </div>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label
+          for="name"
+          class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
+          >Name</label
+        >
+        <input
+          id="name"
+          type="text"
+          placeholder="Your name"
+          formControlName="name"
+          pInputText
+          class="w-full px-4 py-2 border rounded-lg dark:bg-neutral-700 dark:text-white dark:border-neutral-600"
+        />
+        @if(signupForm.get('name')?.touched && signupForm.get('name')?.invalid){
+        <small class="text-red-300">Please enter your name.</small>
+        }
+      </div>
+
+      <div class="mb-4">
+        <label
+          for="email"
+          class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
+          >Email</label
+        >
+        <input
+          id="email"
+          type="email"
+          placeholder="Email address"
+          formControlName="email"
+          pInputText
+          class="w-full px-4 py-2 border rounded-lg dark:bg-neutral-700 dark:text-white dark:border-neutral-600"
+        />
+        @if(signupForm.get('email')?.touched &&
+        signupForm.get('email')?.invalid){
+        <small class="text-red-300">Please enter a valid email.</small>
+        }
+      </div>
+
+      <div class="mb-4">
+        <label
+          for="password"
+          class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
+          >Password</label
+        >
+        <p-password
+          id="password"
+          formControlName="password"
+          placeholder="Password"
+          [toggleMask]="true"
+          class="w-full"
+          styleClass="w-full"
+          [inputStyle]="{ width: '100%' }"
+          [feedback]="false"
+        ></p-password>
+        @if (signupForm.get('password')?.touched &&
+        signupForm.get('password')?.invalid) {
+        <ul class="text-sm space-y-1 mt-3">
+          <li
+            [ngClass]="{
+              'text-green-300': passwordRules?.hasUpperCase,
+              'text-red-300': !passwordRules?.hasUpperCase
+            }"
+          >
+            <i
+              class="pi"
+              [ngClass]="
+                passwordRules?.hasUpperCase
+                  ? 'pi-check text-green-300'
+                  : 'pi-times text-red-300'
+              "
+            ></i>
+
+            Must contain an uppercase letter
+          </li>
+
+          <li
+            [ngClass]="{
+              'text-green-300': passwordRules?.hasLowerCase,
+              'text-red-300': !passwordRules?.hasLowerCase
+            }"
+          >
+            <i
+              class="pi"
+              [ngClass]="
+                passwordRules?.hasLowerCase
+                  ? 'pi-check text-green-300'
+                  : 'pi-times text-red-300'
+              "
+            ></i>
+
+            Must contain a lowercase letter
+          </li>
+
+          <li
+            [ngClass]="{
+              'text-green-300': passwordRules?.hasNumber,
+              'text-red-300': !passwordRules?.hasNumber
+            }"
+          >
+            <i
+              class="pi"
+              [ngClass]="
+                passwordRules?.hasNumber
+                  ? 'pi-check text-green-300'
+                  : 'pi-times text-red-300'
+              "
+            ></i>
+
+            Must contain a number
+          </li>
+
+          <li
+            [ngClass]="{
+              'text-green-300': passwordRules?.hasSpecialChar,
+              'text-red-300': !passwordRules?.hasSpecialChar
+            }"
+          >
+            <i
+              class="pi"
+              [ngClass]="
+                passwordRules?.hasSpecialChar
+                  ? 'pi-check text-green-300'
+                  : 'pi-times text-red-300'
+              "
+            ></i>
+
+            Must contain a special character
+          </li>
+
+          <li
+            [ngClass]="{
+              'text-green-300': passwordRules?.minLength,
+              'text-red-300': !passwordRules?.minLength
+            }"
+          >
+            <i
+              class="pi"
+              [ngClass]="
+                passwordRules?.minLength
+                  ? 'pi-check text-green-300'
+                  : 'pi-times text-red-300'
+              "
+            ></i>
+
+            Must be at least 8 characters long
+          </li>
+        </ul>
+        }
+      </div>
+
+      <div class="mb-4">
+        <label
+          for="confirmPassword"
+          class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
+          >Confirm Password</label
+        >
+        <p-password
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          placeholder="Confirm Password"
+          [toggleMask]="true"
+          class="w-full"
+          styleClass="w-full mb-3"
+          [inputStyle]="{ width: '100%' }"
+          [feedback]="false"
+        ></p-password>
+        <div class="flex flex-col">
+          @if (signupForm.get('confirmPassword')?.touched &&
+          signupForm.get('confirmPassword')?.invalid) {
+          <small class="text-red-300">Confirm Password is required.</small>
+          } @if(signupForm.hasError('passwordsMismatch') &&
+          signupForm.get('confirmPassword')?.touched){
+          <small class="text-red-300">Passwords do not match.</small>
+          }
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <p-button type="submit" label="Sign Up" styleClass="w-full" />
+      </div>
+    </form>
+
+    <div class="flex items-center justify-between mt-4">
+      <span class="w-1/5 border-b dark:border-neutral-600 md:w-1/4"></span>
+      <a
+        href="javascript:void(0)"
+        routerLink="/auth/signin"
+        class="text-xs text-neutral-500 uppercase dark:text-neutral-400 hover:underline"
+        >or sign in</a
+      >
+
+      <span class="w-1/5 border-b dark:border-neutral-600 md:w-1/4"></span>
+    </div>
+  </div>
+</div>

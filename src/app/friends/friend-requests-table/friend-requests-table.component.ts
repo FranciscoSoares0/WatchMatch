@@ -1,0 +1,54 @@
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FriendService } from '../services/friend.service';
+import { MessageService } from 'primeng/api';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { RespondRequest } from '../interfaces/respond-request';
+import { Avatar } from 'primeng/avatar';
+
+@Component({
+  selector: 'app-friend-requests-table',
+  imports: [TableModule,ButtonModule,Avatar],
+  templateUrl: './friend-requests-table.component.html',
+  styleUrl: './friend-requests-table.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class FriendRequestsTableComponent {
+  private readonly friendService = inject(FriendService);
+  private readonly messageService = inject(MessageService);
+
+  requests = this.friendService.friendRequestsSig;
+
+  ngOnInit(): void {
+    this.friendService.getFriendRequests().subscribe({
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.error.message,
+        });
+      },
+    });
+  }
+
+  RespondRequest(requestorId:string, respondRequestData:RespondRequest){
+    this.friendService.respondToFriendRequest(requestorId,respondRequestData).subscribe(
+      {
+        next: (response) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: response.message,
+          });
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.error.message,
+          });
+        },
+      }
+    )
+  }
+}
