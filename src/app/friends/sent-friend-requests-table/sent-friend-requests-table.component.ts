@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { FriendService } from '../services/friend.service';
+import { FriendApiService } from '../services/friend-api.service';
 import { MessageService } from 'primeng/api';
 import { Message } from 'primeng/message';
 import { Avatar } from 'primeng/avatar';
+import { FriendStateService } from '../services/friend-state.service';
 
 @Component({
   selector: 'app-sent-friend-requests-table',
@@ -13,13 +14,17 @@ import { Avatar } from 'primeng/avatar';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SentFriendRequestsTableComponent {
-private readonly friendService = inject(FriendService);
+private readonly friendApiService = inject(FriendApiService);
+private readonly friendStateService = inject(FriendStateService);
   private readonly messageService = inject(MessageService);
 
-  sentRequests = this.friendService.sentRequestsSig;
+  sentRequests = this.friendStateService.sentRequestsSig;
 
   ngOnInit(): void {
-    this.friendService.getSentRequests().subscribe({
+    this.friendApiService.getSentRequests().subscribe({
+      next: (requests) => {
+        this.friendStateService.setSentRequests(requests);
+      },
       error: (err) => {
         this.messageService.add({
           severity: 'error',

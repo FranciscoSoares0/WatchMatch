@@ -4,7 +4,8 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SendFriendRequest } from '../interfaces/send-friend-request';
-import { FriendService } from '../services/friend.service';
+import { FriendApiService } from '../services/friend-api.service';
+import { FriendStateService } from '../services/friend-state.service';
 
 @Component({
   selector: 'app-add-friend-form',
@@ -15,7 +16,8 @@ import { FriendService } from '../services/friend.service';
 })
 export class AddFriendFormComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly friendService = inject(FriendService);
+  private readonly friendApiService = inject(FriendApiService);
+  private readonly friendStateService = inject(FriendStateService);
   private readonly messageService = inject(MessageService);
 
   sendFriendRequestForm = this.fb.group({
@@ -29,8 +31,9 @@ export class AddFriendFormComponent {
         friendEmail: friendEmail!,
       };
 
-      this.friendService.sendFriendRequest(addFriendData).subscribe({
+      this.friendApiService.sendFriendRequest(addFriendData).subscribe({
         next: (response) => {
+          this.friendStateService.addSentRequest(response.friendship);
           this.sendFriendRequestForm.reset();
           this.messageService.add({
             severity: 'success',

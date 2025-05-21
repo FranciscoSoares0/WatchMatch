@@ -6,11 +6,12 @@ import {
   signal,
 } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { FriendService } from '../services/friend.service';
+import { FriendApiService } from '../services/friend-api.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { FriendStateService } from '../services/friend-state.service';
 
 @Component({
   selector: 'app-friends-table',
@@ -21,14 +22,18 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
   providers: [ConfirmationService, MessageService],
 })
 export class FriendsTableComponent implements OnInit {
-  private readonly friendService = inject(FriendService);
+  private readonly friendApiService = inject(FriendApiService);
+  private readonly friendStateService = inject(FriendStateService);
   private readonly messageService = inject(MessageService);
   private readonly confirmationService = inject(ConfirmationService);
 
-  friends = this.friendService.friendsSig;
+  friends = this.friendStateService.friendsSig;
 
   ngOnInit(): void {
-    this.friendService.getUserFriends().subscribe({
+    this.friendApiService.getUserFriends().subscribe({
+      next: (friends) => {
+        this.friendStateService.setFriends(friends);
+      },
       error: (err) => {
         this.messageService.add({
           severity: 'error',
@@ -64,8 +69,9 @@ export class FriendsTableComponent implements OnInit {
   }
 
   RemoveFriend(friendId: string) {
-    this.friendService.removeFriend(friendId).subscribe({
+    this.friendApiService.removeFriend(friendId).subscribe({
       next: (response) => {
+        this.friendStateService.removeFriend(friendId);
         this.messageService.add({
           severity: 'success',
           summary: 'Success',

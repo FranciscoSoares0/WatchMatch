@@ -1,26 +1,33 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FriendService } from '../services/friend.service';
+import {
+  FriendApiService,
+} from '../services/friend-api.service';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { RespondRequest } from '../interfaces/respond-request';
 import { Avatar } from 'primeng/avatar';
+import { FriendStateService } from '../services/friend-state.service';
 
 @Component({
   selector: 'app-friend-requests-table',
-  imports: [TableModule,ButtonModule,Avatar],
+  imports: [TableModule, ButtonModule, Avatar],
   templateUrl: './friend-requests-table.component.html',
   styleUrl: './friend-requests-table.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FriendRequestsTableComponent {
-  private readonly friendService = inject(FriendService);
+  private readonly friendStateService = inject(FriendStateService);
+  private readonly friendApiService = inject(FriendApiService);
   private readonly messageService = inject(MessageService);
 
-  requests = this.friendService.friendRequestsSig;
+  requests = this.friendStateService.friendRequestsSig;
 
   ngOnInit(): void {
-    this.friendService.getFriendRequests().subscribe({
+    this.friendApiService.getFriendRequests().subscribe({
+      next: (requests) => {
+        this.friendStateService.setFriendRequests(requests);
+      },
       error: (err) => {
         this.messageService.add({
           severity: 'error',
@@ -31,10 +38,12 @@ export class FriendRequestsTableComponent {
     });
   }
 
-  RespondRequest(requestorId:string, respondRequestData:RespondRequest){
-    this.friendService.respondToFriendRequest(requestorId,respondRequestData).subscribe(
-      {
+  RespondRequest(requestorId: string, respondRequestData: RespondRequest) {
+    this.friendApiService
+      .respondToFriendRequest(requestorId, respondRequestData)
+      .subscribe({
         next: (response) => {
+          this.friendStateService.respondRequest(requestorId, respondRequestData,response);
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -48,7 +57,6 @@ export class FriendRequestsTableComponent {
             detail: error.error.message,
           });
         },
-      }
-    )
+      });
   }
 }

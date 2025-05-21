@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FriendService } from './friend.service';
+import { FriendService } from './friend-api.service';
 
 describe('FriendService', () => {
   let service: FriendService;
