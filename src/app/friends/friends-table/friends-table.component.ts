@@ -12,10 +12,12 @@ import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { FriendStateService } from '../services/friend-state.service';
+import { SkeletonLoaderComponent } from '../skeleton-loader/skeleton-loader.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-friends-table',
-  imports: [TableModule, ButtonModule, AvatarModule, ConfirmDialog],
+  imports: [TableModule, ButtonModule, AvatarModule, ConfirmDialog, SkeletonLoaderComponent, RouterLink],
   templateUrl: './friends-table.component.html',
   styleUrl: './friends-table.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,13 +30,16 @@ export class FriendsTableComponent implements OnInit {
   private readonly confirmationService = inject(ConfirmationService);
 
   friends = this.friendStateService.friendsSig;
+  loading = signal<boolean>(true);
 
   ngOnInit(): void {
     this.friendApiService.getUserFriends().subscribe({
       next: (friends) => {
+        this.loading.set(false);
         this.friendStateService.setFriends(friends);
       },
       error: (err) => {
+        this.loading.set(false);
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -54,10 +59,12 @@ export class FriendsTableComponent implements OnInit {
       rejectButtonProps: {
         label: 'Cancel',
         severity: 'secondary',
+        size: 'small',
         outlined: true,
       },
       acceptButtonProps: {
         label: 'Remove Friend',
+        size: 'small',
         severity: 'danger',
       },
 

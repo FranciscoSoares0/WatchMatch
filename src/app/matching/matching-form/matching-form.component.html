@@ -1,0 +1,77 @@
+<div
+  class="min-h-screen flex items-center justify-center bg-neutral-100 dark:bg-neutral-900"
+>
+  <div
+    class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg dark:bg-neutral-900"
+  >
+    <div class="mb-6 text-center">
+      <h2 class="text-2xl font-bold text-neutral-700 dark:text-neutral-200">
+        Select Your Matching Preferences
+      </h2>
+    </div>
+    <form [formGroup]="matchingForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4 flex flex-col">
+        <label
+          for="type"
+          class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
+          >Matching Type</label
+        >
+        <p-selectbutton
+          [options]="types()"
+          formControlName="type"
+          optionLabel="label"
+          optionValue="value"
+        />
+      </div>
+      <div class="mb-4 flex flex-col">
+        <label
+          for="genres"
+          class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
+          >Genres</label
+        >
+        <p-multiselect
+          [options]="genres()"
+          formControlName="genres"
+          placeholder="Select Genres"
+          optionLabel="name"
+          optionValue="id" 
+          display="chip"
+          styleClass="w-full"
+        />
+        @if(matchingForm.get('genres')?.touched &&
+        matchingForm.get('genres')?.invalid){
+        <small class="text-red-300">Please select genres</small>
+        }
+      </div>
+      <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-3">Release Dates</label>
+      <div class="mb-4 flex flex-col">
+        <label
+          for="startDate"
+          class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
+          >from</label
+        >
+         <p-datepicker formControlName="startDate" styleClass="w-full" />
+        @if(matchingForm.get('startDate')?.touched &&
+        matchingForm.get('startDate')?.invalid){
+        <small class="text-red-300">Please select a from date</small>
+        }
+      </div>
+      <div class="mb-4 flex flex-col">
+        <label
+          for="endDate"
+          class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
+          >to</label
+        >
+        <p-datepicker formControlName="endDate" styleClass="w-full" />
+        @if(matchingForm.get('endDate')?.touched &&
+        matchingForm.get('endDate')?.invalid){
+        <small class="text-red-300">Please select a to date</small>
+        }
+      </div>
+
+      <div class="mt-4">
+        <p-button type="submit" label="Match" styleClass="w-full" />
+      </div>
+    </form>
+  </div>
+</div>

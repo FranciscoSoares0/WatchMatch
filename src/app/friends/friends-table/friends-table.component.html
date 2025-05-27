@@ -1,4 +1,6 @@
-@if(friends().length === 0){
+@if(loading()){
+<app-skeleton-loader></app-skeleton-loader>
+} @else { @if(friends().length === 0){
 <div class="p-3 text-center text-gray-500">No friends found.</div>
 } @else {
 <p-table [value]="friends()" [tableStyle]="{ 'min-width': '50rem' }">
@@ -19,9 +21,12 @@
             size="normal"
             shape="circle"
           ></p-avatar>
-          }
-          @else {
-            <p-avatar [label]="friend.friendName[0]" size="normal" shape="circle"></p-avatar>
+          } @else {
+          <p-avatar
+            [label]="friend.friendName[0]"
+            size="normal"
+            shape="circle"
+          ></p-avatar>
           }
           <div>{{ friend.friendName }}</div>
         </div>
@@ -29,17 +34,18 @@
       <td>{{ friend.friendEmail }}</td>
       <td>
         <div class="flex gap-3">
-          <p-button label="Begin Matching" [raised]="true" />
+          <p-button routerLink="/matching" label="Start Matching" [raised]="true" size="small" />
           <p-button
+            size="small"
             label="Remove Friend"
             [raised]="true"
             severity="danger"
-            (click)="RemoveFriendConfirmDialog(friend.friendId,$event)"
+            (click)="RemoveFriendConfirmDialog(friend.friendId, $event)"
           />
         </div>
       </td>
     </tr>
   </ng-template>
 </p-table>
-}
+} }
 <p-confirmdialog />

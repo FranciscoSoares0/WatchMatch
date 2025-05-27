@@ -1,7 +1,9 @@
-@if(requests().length === 0){
+@if(loading()){
+<app-skeleton-loader></app-skeleton-loader>
+} @else { @if(requests().length === 0){
 <div class="p-3 text-center text-gray-500">No friend requests found.</div>
 } @else {
-<p-table [value]="requests()" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table [value]="requests()" [tableStyle]="{ 'min-width': '100rem' }">
   <ng-template pTemplate="header">
     <tr>
       <th>Name</th>
@@ -20,9 +22,12 @@
             size="normal"
             shape="circle"
           ></p-avatar>
-          }
-          @else {
-            <p-avatar [label]="request.friendName[0]" size="normal" shape="circle"></p-avatar>
+          } @else {
+          <p-avatar
+            [label]="request.friendName[0]"
+            size="normal"
+            shape="circle"
+          ></p-avatar>
           }
           <div>{{ request.friendName }}</div>
         </div>
@@ -30,12 +35,12 @@
       <td>{{ request.friendEmail }}</td>
       <td>
         <div class="flex gap-3">
-          <p-button 
-            label="Accept Request"
-            (click)="RespondRequest(request.friendId,{accept:true})" 
-            />
           <p-button
-            (click)="RespondRequest(request.friendId,{accept:false})"
+            label="Accept Request"
+            (click)="RespondRequest(request.friendId, { accept: true })"
+          />
+          <p-button
+            (click)="RespondRequest(request.friendId, { accept: false })"
             label="Decline Request"
             severity="danger"
           />
@@ -44,4 +49,4 @@
     </tr>
   </ng-template>
 </p-table>
-}
+} }

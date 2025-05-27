@@ -12,7 +12,7 @@
           sendFriendRequestForm.get('friendEmail')?.touched
         "
         [class.ng-dirty]="sendFriendRequestForm.get('friendEmail')?.dirty"
-        class="w-full mb-3"
+        class="sm:w-full mb-3"
       />
       @if(sendFriendRequestForm.get('friendEmail')?.touched &&
       sendFriendRequestForm.get('friendEmail')?.invalid){
@@ -20,6 +20,7 @@
       }
     </div>
 
-    <p-button type="submit" label="Send Request" />
+    <p-button type="submit" size="small" label="Send Request">
+    </p-button>
   </div>
 </form>

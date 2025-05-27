@@ -1,0 +1,11 @@
+<div class="p-4">
+    @for(row of [1, 2, 3];track row){
+        <div class="flex items-center py-2 gap-20">
+      <div class="flex gap-3 items-center">
+        <p-skeleton shape="circle" size="2.5rem"></p-skeleton>
+        <p-skeleton width="15rem" height="2.5rem"></p-skeleton>
+      </div>
+      <p-skeleton class="hidden sm:inline" width="20rem" height="2.5rem"></p-skeleton>
+    </div>
+    }
+  </div>
