@@ -34,7 +34,7 @@
       <td>{{ friend.friendEmail }}</td>
       <td>
         <div class="flex gap-3">
-          <p-button routerLink="/matching" label="Start Matching" [raised]="true" size="small" />
+          <p-button [routerLink]="['/matching']" [queryParams]="{ friendId: friend.friendId }" label="Start Matching" [raised]="true" size="small" />
           <p-button
             size="small"
             label="Remove Friend"

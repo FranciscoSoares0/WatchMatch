@@ -34,7 +34,7 @@
           formControlName="genres"
           placeholder="Select Genres"
           optionLabel="name"
-          optionValue="id" 
+          optionValue="id"
           display="chip"
           styleClass="w-full"
         />
@@ -43,14 +43,17 @@
         <small class="text-red-300">Please select genres</small>
         }
       </div>
-      <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-3">Release Dates</label>
+      <label
+        class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-3"
+        >Release Dates</label
+      >
       <div class="mb-4 flex flex-col">
         <label
           for="startDate"
           class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
           >from</label
         >
-         <p-datepicker formControlName="startDate" styleClass="w-full" />
+        <p-datepicker formControlName="startDate" styleClass="w-full" />
         @if(matchingForm.get('startDate')?.touched &&
         matchingForm.get('startDate')?.invalid){
         <small class="text-red-300">Please select a from date</small>
@@ -66,6 +69,63 @@
         @if(matchingForm.get('endDate')?.touched &&
         matchingForm.get('endDate')?.invalid){
         <small class="text-red-300">Please select a to date</small>
+        }
+      </div>
+
+      <div class="mb-4 flex flex-col">
+        <label
+          for="friend"
+          class="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
+          >Friend</label
+        >
+        <p-select
+          formControlName="friends"
+          [options]="friendsSelect()"
+          optionLabel="email"
+          optionValue="id"
+          placeholder="Select a Friend"
+          class="w-full"
+        >
+          <ng-template let-friend pTemplate="item">
+            <div class="flex items-center gap-2">
+              @if(friend.image){
+              <p-avatar
+                [image]="friend.image"
+                size="normal"
+                shape="circle"
+              ></p-avatar>
+              } @else {
+              <p-avatar
+                [label]="friend.name[0]"
+                size="normal"
+                shape="circle"
+              ></p-avatar>
+              }
+              <div>{{ friend.email }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-friend pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2">
+              @if(friend.image){
+              <p-avatar
+                [image]="friend.image"
+                size="normal"
+                shape="circle"
+              ></p-avatar>
+              } @else {
+              <p-avatar
+                [label]="friend.name[0]"
+                size="normal"
+                shape="circle"
+              ></p-avatar>
+              }
+              <span>{{ friend.email }}</span>
+            </div>
+          </ng-template>
+        </p-select>
+        @if(matchingForm.get('friends')?.touched &&
+        matchingForm.get('friends')?.invalid){
+        <small class="text-red-300">Please select a friend</small>
         }
       </div>
 
