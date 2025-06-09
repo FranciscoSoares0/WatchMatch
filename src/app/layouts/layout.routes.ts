@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { FriendsHomeComponent } from '../friends/friends-home/friends-home.component';
 import { MatchingFormComponent } from '../matching/matching-form/matching-form.component';
+import { MatchingSelectionComponent } from '../matching/matching-selection/matching-selection.component';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,10 @@ export const routes: Routes = [
       {
         path: 'matching',
         component: MatchingFormComponent,
+      },
+      {
+        path: 'matching/:matchingId',
+        component: MatchingSelectionComponent,
       },
     ],
   },

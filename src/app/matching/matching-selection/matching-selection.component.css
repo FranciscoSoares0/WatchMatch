@@ -1,0 +1,18 @@
+/* styles.css or component.css */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #a3a3a3 transparent; /* thumb and track colors */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #a3a3a3; /* gray-400 */
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}

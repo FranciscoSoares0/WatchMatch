@@ -6,7 +6,12 @@ export interface AddMatching {
 }
 
 export interface AddMatchingResponse {
+    _id: string;
     userId: string;
     user2Id: string;
     shows: Array<Show>;
+    user1ApprovedShows: Array<Show>;
+    user2ApprovedShows: Array<Show>;
+    statusUser1: string;
+    statusUser2: string;
 }

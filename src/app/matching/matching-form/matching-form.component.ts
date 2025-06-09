@@ -190,13 +190,14 @@ export class MatchingFormComponent implements OnInit {
           summary: 'Success',
           detail: 'Matching added successfully',
         });
-        this.router.navigate(['/home']);
+        this.router.navigate([`/matching/${response._id}`]);
       },
-      error: (error) => {
+      error: (response) => {
+        console.log(response)
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to add matching',
+          detail: response.error.message,
         });
       },
     });

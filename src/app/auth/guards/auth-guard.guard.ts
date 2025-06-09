@@ -13,7 +13,13 @@ export class AuthGuard implements CanActivate {
   canActivate(): Observable<boolean> {
     return this.authService.getProfile().pipe(
       map(user => {
-        return true;
+        console.log(user);
+        if(user)
+          return true;
+        else{
+          this.router.navigate(['/auth/signin']);
+          return false;
+        }
       }),
       catchError(() => {
         this.router.navigate(['/auth/signin']);
