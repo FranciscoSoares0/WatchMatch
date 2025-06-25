@@ -2,88 +2,25 @@
   <div class="w-full max-w-md mx-auto">
     @if(loading()){
     <app-caroussel-skeleton-loader></app-caroussel-skeleton-loader>
-    } @else {
-    <p-carousel
-      [value]="shows()"
-      [numVisible]="1"
-      [numScroll]="1"
-      orientation="vertical"
-      verticalViewPortHeight="450px"
-      contentClass="flex items-center"
-    >
-      <ng-template let-show #item>
-        <div
-          class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4"
-        >
-          <div class="mb-4">
-            <div class="relative mx-auto w-full">
-              <img
-                src="https://image.tmdb.org/t/p/w500/{{ show.backdrop_path }}"
-                [alt]="show.name"
-                class="w-full h-48 object-cover rounded"
-              />
-              <app-show-score [score]="show.vote_average"></app-show-score>
-              @if(isShowApproved(show)){
-              <p-tag
-                icon="pi pi-star"
-                value="Want to watch"
-                class="absolute top-2 left-2"
-                [ngStyle]="{
-                  'background-color': 'oklch(51.8% 0.253 323.949)',
-                  color: '#FFFFFF'
-                }"
-              />
-              } @if(isShowRejected(show)){
-              <p-tag
-                icon="pi pi-ban"
-                value="Not interested"
-                class="absolute top-2 left-2"
-                [ngStyle]="{
-                  'background-color': 'oklch(62% 0.23 22.216)',
-                  color: '#FFFFFF'
-                }"
-              />
-              }
-            </div>
-          </div>
-          <div class="mb-4 font-bold text-lg text-emerald-500">
-            {{ show.title }}
-          </div>
-          <div class="flex justify-between items-center">
-            <div
-              class="max-h-16 md:max-h-18 lg:max-h-24 overflow-y-auto text-sm md:text-base font-semibold scroll-smooth custom-scrollbar"
-            >
-              {{ show.overview }}
-            </div>
-          </div>
-          <div class="flex gap-3 mt-4 justify-end">
-            <p-button
-              label="Yes"
-              [raised]="true"
-              size="small"
-              (click)="approveShow(show)"
-              [disabled]="isShowApproved(show)"
-            />
-            <p-button
-              size="small"
-              label="No"
-              [raised]="true"
-              severity="danger"
-              (click)="rejectShow(show)"
-              [disabled]="isShowRejected(show)"
-            />
-          </div>
-        </div>
-      </ng-template>
-    </p-carousel>
-    }
-
+    } @else { @if(isUser1() && user1Status() === 'pending' || !isUser1() &&
+    user2Status() === 'pending'){ @if(shows().length > 0){
+    <app-matching-carroussel
+      [shows]="shows()"
+      (approvedChange)="approvedShows.set($event)"
+      (rejectedChange)="rejectedShows.set($event)"
+    ></app-matching-carroussel>
     <div class="flex justify-center mt-4 align-items-center">
       <p-button
-        label="Submit Answers"
+        label="Let's Match"
         [raised]="true"
         [disabled]="isSubmissionDisabled()"
+        (click)="SubmitMatching()"
       />
     </div>
+    } } @else if(user1Status() === 'completed' && user2Status() ===
+    'completed'){
+    <app-matching-results [matching]="matching()" ></app-matching-results> } @else {
+    <app-matching-submitted-choices></app-matching-submitted-choices>
+    }}
   </div>
 </div>

@@ -1,0 +1,62 @@
+<div class="overflow-x-auto">
+  <p-table [value]="matching()?.shows || []">
+    <ng-template #header>
+      <tr>
+        <th></th>
+        <th>
+          <span
+            class="block truncate min-w-[50px]"
+            [title]="matching()?.user1Email"
+          >
+            {{ getUserLabel(matching()?.user1Email) }}
+          </span>
+        </th>
+        <th>
+          <span
+            class="block truncate min-w-[50px]"
+            [title]="matching()?.user2Email"
+          >
+            {{ getUserLabel(matching()?.user2Email) }}
+          </span>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-show>
+      <tr>
+        <td>
+          <div class="flex gap-4 items-center">
+            <img width="50" src="https://image.tmdb.org/t/p/w500/{{show.poster_path}}" alt="">
+            <strong>{{ show.title }}</strong>
+          </div>
+          
+        </td>
+        <td>
+          @if(isShowApprovedByUser1(show)){
+          <span class="text-emerald-500"
+            ><i class="pi pi-check-circle"></i
+          ></span>
+          } @else {
+          <span class="text-red-400"><i class="pi pi-times-circle"></i></span>
+          }
+        </td>
+        <td>
+          @if(isShowApprovedByUser2(show)){
+          <span class="text-emerald-500"
+            ><i class="pi pi-check-circle"></i
+          ></span>
+          } @else {
+          <span class="text-red-400"><i class="pi pi-times-circle"></i></span>
+          }
+        </td>
+        <td>
+          @if(isMatch(show)){
+          <span class="text-emerald-500">Match</span>
+          } @else {
+          <span class="text-red-400">No Match</span>
+          }
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

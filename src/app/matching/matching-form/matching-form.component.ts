@@ -136,8 +136,14 @@ export class MatchingFormComponent implements OnInit {
         endDate: endDate!,
       };
 
+      const allGenres = this.genres(); // signal value
+      const genreNames = genres!
+        .map((id) => allGenres.find((g) => g.id === id)?.name)
+        .filter((name): name is string => !!name); // Filter out undefined
+
       let AddMatchingData: any = {
         user2Id: friends,
+        genres: genreNames,
       };
 
       if (type == 'movie')
@@ -193,7 +199,7 @@ export class MatchingFormComponent implements OnInit {
         this.router.navigate([`/matching/${response._id}`]);
       },
       error: (response) => {
-        console.log(response)
+        console.log(response);
         this.messageService.add({
           severity: 'error',
           summary: 'Error',

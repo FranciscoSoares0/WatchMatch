@@ -1,0 +1,59 @@
+<div class="flex flex-col w-full px-4 max-w-5xl mx-auto mt-8 gap-6">
+  <h2 class="text-xl font-semibold text-gray-800 dark:text-white">
+    {{type()}} Matchings
+  </h2>
+
+  <div class="card w-full">
+    <p-carousel
+      [value]="matchings()"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions()"
+      circular="true"
+      [autoplayInterval]="0"
+      [numVisible]="3"
+    >
+      <ng-template pTemplate="item" let-matching>
+        <a [routerLink]="['/matching', matching._id]" class="block">
+          <div
+            class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4 w-full max-w-xs mx-auto"
+          >
+            <div class="mb-4">
+              <div class="relative mx-auto">
+                <img
+                  [src]="
+                    'https://image.tmdb.org/t/p/w500/' +
+                    matching.shows[0].backdrop_path
+                  "
+                  [alt]="matching.shows[0].backdrop_path"
+                  class="w-full h-auto max-h-48 object-cover rounded"
+                />
+                <div class="absolute top-2 left-2 flex flex-wrap gap-1">
+                  @for (genre of matching.genres; track genre) {
+                  <p-tag
+                    severity="secondary"
+                    [value]="genre"
+                    styleClass="text-xs"
+                  />
+                  }
+                </div>
+              </div>
+            </div>
+            <div
+              class="mb-4 flex items-center gap-2 text-gray-700 dark:text-gray-200 text-sm"
+            >
+              <span class="font-medium text-gray-800 dark:text-white">
+                Matching with:
+              </span>
+              <span
+                class="truncate text-emerald-600 font-semibold"
+                [title]="getFriendEmail(matching,user()!)"
+              >
+                {{ getFriendEmail(matching,user()!) }}
+              </span>
+            </div>
+          </div>
+        </a>
+      </ng-template>
+    </p-carousel>
+  </div>
+</div>

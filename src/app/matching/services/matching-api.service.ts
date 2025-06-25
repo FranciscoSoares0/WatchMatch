@@ -17,6 +17,18 @@ export class MatchingApiService {
     });
   }
 
+  getPendingMatchings(): Observable<Matching[]> {
+    return this.http.get<Matching[]>(`/matching/pending`, {
+      withCredentials: true,
+    });
+  }
+
+  getCompletedMatchings(): Observable<Matching[]> {
+    return this.http.get<Matching[]>(`/matching/completed`, {
+      withCredentials: true,
+    });
+  }
+
   getMatchingById(matchingId: string): Observable<Matching> {
     return this.http.get<Matching>(`/matching/${matchingId}`, {
       withCredentials: true,

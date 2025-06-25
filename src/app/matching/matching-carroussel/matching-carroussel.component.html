@@ -1,0 +1,73 @@
+<p-carousel
+      [value]="shows()"
+      [numVisible]="1"
+      [numScroll]="1"
+      orientation="vertical"
+      verticalViewPortHeight="450px"
+      contentClass="flex items-center"
+    >
+      <ng-template let-show #item>
+        <div
+          class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4"
+        >
+          <div class="mb-4">
+            <div class="relative mx-auto w-full">
+              <img
+                src="https://image.tmdb.org/t/p/w500/{{ show.backdrop_path }}"
+                [alt]="show.name"
+                class="w-full h-48 object-cover rounded"
+              />
+              <app-show-score [score]="show.vote_average"></app-show-score>
+              @if(isShowApproved(show)){
+              <p-tag
+                icon="pi pi-star"
+                value="Want to watch"
+                class="absolute top-2 left-2"
+                [ngStyle]="{
+                  'background-color': 'oklch(51.8% 0.253 323.949)',
+                  color: '#FFFFFF'
+                }"
+              />
+              } @if(isShowRejected(show)){
+              <p-tag
+                icon="pi pi-ban"
+                value="Not interested"
+                class="absolute top-2 left-2"
+                [ngStyle]="{
+                  'background-color': 'oklch(62% 0.23 22.216)',
+                  color: '#FFFFFF'
+                }"
+              />
+              }
+            </div>
+          </div>
+          <div class="mb-4 font-bold text-lg text-emerald-500">
+            {{ show.title }}
+          </div>
+          <div class="flex justify-between items-center">
+            <div
+              class="max-h-16 md:max-h-18 overflow-y-auto text-sm md:text-base font-semibold scroll-smooth custom-scrollbar"
+            >
+              {{ show.overview }}
+            </div>
+          </div>
+          <div class="flex gap-3 mt-4 justify-end">
+            <p-button
+              label="Yes"
+              [raised]="true"
+              size="small"
+              (click)="approveShow(show)"
+              [disabled]="isShowApproved(show)"
+            />
+            <p-button
+              size="small"
+              label="No"
+              [raised]="true"
+              severity="danger"
+              (click)="rejectShow(show)"
+              [disabled]="isShowRejected(show)"
+            />
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
